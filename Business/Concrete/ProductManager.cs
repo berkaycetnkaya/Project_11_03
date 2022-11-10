@@ -1,4 +1,5 @@
 ﻿using Business.Abstract;
+using Business.CCS;
 using Business.Constants;
 using Business.ValidationRules.FluentValidation;
 using Core.Aspects.Autofac.Validation;
@@ -21,16 +22,42 @@ namespace Business.Concrete
 {
     public class ProductManager : IProductService
     { IProductDal  _productDal;
+
+        
+        
         public ProductManager(IProductDal productDal)
         {
             _productDal = productDal;
+            //_logger = logger;
         }
         [ValidationAspect(typeof(ProductValidator))]
         public IResult Add(Product product)
 
         {
+            var result = _productDal.GetAll(p => product.CategoryID == product.CategoryID).Count;
+            if (result >= 10)
+            {
+                return new ErrorResult(Messages.ProductCountOfCategoryError);
+           }
 
 
+            _productDal.Add(product);
+            return new SuccessResult(Messages.ProductAdded);
+            //_logger.log();
+            //try
+            //{
+            //    _logger.log();
+            //try
+            //{
+              
+            //}
+            //catch (Exception exception)
+            //{
+
+            //    _logger.log();
+
+            //}
+            //return new ErrorResult();
             // business.codes..../ burya yazılacak iş kodları
             // Validation kodu : dogrulama kodu valıd ınvalıd
             //if (product.UnitPrice <= 0)
@@ -57,8 +84,7 @@ namespace Business.Concrete
 
             // business codes
 
-            _productDal.Add(product);
-            return new SuccessResult(Messages.ProductAdded);
+            
         }
 
         public IDataResult<List<Product>> GetAll()
