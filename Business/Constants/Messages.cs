@@ -14,6 +14,6 @@ namespace Business.Constants
         public static string MaintenanceTime = "Sistem Bakımda" ;
         public static string ProductListed="Ürünler Listelendi";
         public static string ProductCountOfCategoryError = "Aynı katagoride zaten 10 ürün var";
-
+        public static string ProductNameError = "Aynı isimde ürün var";
     }
 }

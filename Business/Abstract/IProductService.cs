@@ -21,10 +21,10 @@ namespace Business.Abstract
 
         IDataResult<Product> GetById(int productId);
 
-        IResult Add(Product product);  
+        IResult Add(Product product);
         // restful --> HTTP--> protokolü üzerinden geliyor, bir kaynga ulaşmak ıcın ızledıgınız yol internet protokolü kullanılıyor.
         // 
-
+        IResult Update(Product product);
 
     }
 }

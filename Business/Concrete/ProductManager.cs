@@ -34,15 +34,20 @@ namespace Business.Concrete
         public IResult Add(Product product)
 
         {
-            var result = _productDal.GetAll(p => product.CategoryID == product.CategoryID).Count;
-            if (result >= 10)
+
+            if (CheckIfProductkCountOfCategoryCorrect(product.CategoryID).Success)
             {
-                return new ErrorResult(Messages.ProductCountOfCategoryError);
-           }
+                if (CheckIfProductNameİsSame(product.ProductName).Success)
+                {
+                    _productDal.Add(product);
+                    return new SuccessResult(Messages.ProductAdded);
 
+                }
+               
 
-            _productDal.Add(product);
-            return new SuccessResult(Messages.ProductAdded);
+            }
+
+            return new ErrorResult();
             //_logger.log();
             //try
             //{
@@ -121,6 +126,34 @@ namespace Business.Concrete
         public IDataResult <List<ProductDetailDto>> GetProductDetails()
         {
             return new SuccessDataResult<List<ProductDetailDto>>( _productDal.GetProductDetails());
+        }
+        [ValidationAspect(typeof(ProductValidator))]
+        public IResult Update(Product product)
+        {
+            throw new NotImplementedException();
+        }
+
+        // Select count (*) from product where categoryId=1
+        // **_productDal.GetAll(p => p.CategoryID == categoryId).Count;
+        private IResult CheckIfProductkCountOfCategoryCorrect(int categoryId)
+        {
+            var result = _productDal.GetAll(p => p.CategoryID == categoryId).Count;
+            if (result >= 10)
+            {
+                return new ErrorResult(Messages.ProductCountOfCategoryError);
+            }
+            return new SuccessResult();
+        }
+
+        private IResult CheckIfProductNameİsSame(String productName)
+        {
+            var result = _productDal.GetAll(p => p.ProductName == productName).Any();
+            if(result  )
+            {
+                return new ErrorResult(Messages.ProductNameError);
+                
+            }
+            return new SuccessResult(Messages.ProductAdded);
         }
     }
 }
