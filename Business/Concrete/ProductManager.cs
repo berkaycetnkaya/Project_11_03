@@ -4,6 +4,7 @@ using Business.Constants;
 using Business.ValidationRules.FluentValidation;
 using Core.Aspects.Autofac.Validation;
 using Core.CrossCuttingConcerns.Validation;
+using Core.Utilities.Business;
 using Core.Utilities.Results;
 using DataAccess.Abstract;
 using DataAccess.Concrete.InMemory;
@@ -22,32 +23,42 @@ namespace Business.Concrete
 {
     public class ProductManager : IProductService
     { IProductDal  _productDal;
-
+        ICategoryService _categoryservice; 
         
         
-        public ProductManager(IProductDal productDal)
+        public ProductManager(IProductDal productDal,ICategoryService categoryService)
         {
             _productDal = productDal;
+           _categoryservice = categoryService;  
             //_logger = logger;
         }
         [ValidationAspect(typeof(ProductValidator))]
         public IResult Add(Product product)
 
         {
+            IResult result = BusinessRules.Run(CheckIfProductNameİsSame(product.ProductName),
+                 CheckIfProductkCountOfCategoryCorrect(product.CategoryID), CheckIfThereAreFifteenCategory());   
 
-            if (CheckIfProductkCountOfCategoryCorrect(product.CategoryID).Success)
+            if(result != null)
             {
-                if (CheckIfProductNameİsSame(product.ProductName).Success)
-                {
-                    _productDal.Add(product);
-                    return new SuccessResult(Messages.ProductAdded);
+                return result;
+            }
+            _productDal.Add(product);
+            return new SuccessResult(Messages.ProductAdded);
 
-                }
+
+            //if (CheckIfProductkCountOfCategoryCorrect(product.CategoryID).Success)
+            //{
+            //    if (CheckIfProductNameİsSame(product.ProductName).Success)
+            //    {
+                   
+
+            //    }
                
 
-            }
+            //}
 
-            return new ErrorResult();
+            //return new ErrorResult();
             //_logger.log();
             //try
             //{
@@ -155,5 +166,27 @@ namespace Business.Concrete
             }
             return new SuccessResult(Messages.ProductAdded);
         }
+
+        //private IResult CheckIfThereAreFifteenCategory(int category)
+        //{
+        //    var result = _categoryservice.GetById<categoryID>(int p => p.categoryID == categoryID);    
+        //    if (result >= 15)
+        //    {
+        //        return new ErrorResult(Messages.MoreThanFifteen);
+        //    }
+        //    return new SuccessResult(Messages.ProductAdded);
+        //}
+
+
+        private IResult CheckIfThereAreFifteenCategory()
+        {
+            var result = _categoryservice.GetAll();
+            if (result.Data.Count > 15)
+            {
+                return new ErrorResult(Messages.MoreThanFifteen);
+            }
+            return new SuccessResult(Messages.ProductAdded);
+        }
+
     }
 }
