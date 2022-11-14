@@ -5,6 +5,7 @@ using Business.Concrete;
 using Business.DependencyResolvers.Autofac;
 using DataAccess.Abstract;
 using DataAccess.Concrete.EntityFramework;
+using Microsoft.AspNetCore.Identity;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Host.UseServiceProviderFactory(new AutofacServiceProviderFactory());
@@ -22,6 +23,8 @@ builder.Host.ConfigureContainer<ContainerBuilder>(builder =>
 // Autofac, Ninject, Castlewindor, lightınject
 // AOP = bir metadoun onunde- sonunda çalışan kod parcacıklarını  yazıyoruz. businessda yazılır 
 builder.Services.AddControllers();
+
+builder.Configuration.GetSection("TokenOptions").Get<TokenOptions>();
 //builder.Services.AddSingleton<IProductService,ProductManager>();
 
 //builder.Services.AddSingleton<IProductDal, EfProductDal>();
