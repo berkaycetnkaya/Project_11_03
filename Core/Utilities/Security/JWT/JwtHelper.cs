@@ -1,6 +1,7 @@
 ﻿using Core.Concrete;
 using Core.Extensions;
 using Core.Utilities.Security.Encryption;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using System;
@@ -10,6 +11,7 @@ using System.Linq;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
+using Core.Entities;
 
 namespace Core.Utilities.Security.JWT
 {
@@ -21,7 +23,9 @@ namespace Core.Utilities.Security.JWT
         public JwtHelper(IConfiguration configuration)
         {
             Configuration = configuration;
-           // _tokenOptions = Configuration.GetSection("TokenOptions").Get<TokenOptions>();
+
+            //_tokenOptions = Configuration.GetSection("TokenOptions").Path<TokenOptions>();
+            //  _tokenOptions = Configuration.GetSection("TokenOptions").Get<TokenOptions>();
 
         }
         public AccessToken CreateToken(User user, List<OperationClaim> operationClaims)

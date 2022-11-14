@@ -16,5 +16,10 @@ namespace Core.Utilities.Security.Encryption
         { 
             return new SymmetricSecurityKey(Encoding.UTF8.GetBytes(securityKey));   
         }
+
+        public static SecurityKey CreateSecurityKey(object securityKey)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
