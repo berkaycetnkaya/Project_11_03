@@ -12,6 +12,10 @@ using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 using Core.Entities;
+using Core.Utilities.IoC;
+using Castle.Core.Configuration;
+using IConfiguration = Microsoft.Extensions.Configuration.IConfiguration;
+using Autofac.Core;
 
 namespace Core.Utilities.Security.JWT
 {
@@ -24,8 +28,10 @@ namespace Core.Utilities.Security.JWT
         {
             Configuration = configuration;
 
-            //_tokenOptions = Configuration.GetSection("TokenOptions").Path<TokenOptions>();
-            //  _tokenOptions = Configuration.GetSection("TokenOptions").Get<TokenOptions>();
+           // service.Configure<TokenOptions>(Configuration.GetSection("TokenOptions"));
+            // _tokenOptions = Configuration.GetConnectionString("TokenOption").Intersect<TokenOptions>();
+            // _tokenOptions = Configuration.GetSection("TokenOptions").Path<TokenOptions>();
+            // _tokenOptions = Configuration.GetSection("TokenOptions").Get<TokenOptions>();
 
         }
         public AccessToken CreateToken(User user, List<OperationClaim> operationClaims)

@@ -15,7 +15,8 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Core.Extensions;
 using Core.DependencyResolvers;
-
+using System.Configuration;
+using Microsoft.Extensions.Configuration;
 var builder = WebApplication.CreateBuilder(args);
 builder.Host.UseServiceProviderFactory(new AutofacServiceProviderFactory());
 builder.Host.ConfigureContainer<ContainerBuilder>(builder =>
@@ -62,13 +63,16 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
         };
     });
 //ServiceTool.Create(services);
-            //    services.AddDependencyResolvers(new ICoreModule[]
-            //{
-            //    new CoreModule(),
-            //});
-
-
-
+//    services.AddDependencyResolvers(new ICoreModule[]
+//{
+//    new CoreModule(),
+//});
+builder.Configuration.GetSection("TokenOption").Get<TokenOptions>();
+builder.Services.AddDependencyResolver(new ICoreModule[]
+{
+    new CoreModule()
+});
+var _connectionstring = ("TokenOption");
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
