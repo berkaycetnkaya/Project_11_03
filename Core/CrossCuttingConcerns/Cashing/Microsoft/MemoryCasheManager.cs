@@ -17,10 +17,12 @@ namespace Core.CrossCuttingConcerns.Cashing.Microsoft
         {
             _memoryCache = ServiceTool.ServiceProvider.GetService<IMemoryCache>();
         }
-        public void add(string key, object value, int duration)
+        public void Add(string key, object value, int duration)
         {
             _memoryCache.Set(key, value, TimeSpan.FromMinutes(duration));
         }
+
+        
 
         public T Get<T>(string key)
         {

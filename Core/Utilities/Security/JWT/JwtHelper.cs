@@ -31,7 +31,7 @@ namespace Core.Utilities.Security.JWT
            // service.Configure<TokenOptions>(Configuration.GetSection("TokenOptions"));
             // _tokenOptions = Configuration.GetConnectionString("TokenOption").Intersect<TokenOptions>();
             // _tokenOptions = Configuration.GetSection("TokenOptions").Path<TokenOptions>();
-            // _tokenOptions = Configuration.GetSection("TokenOptions").Get<TokenOptions>();
+             _tokenOptions = Configuration.GetSection("TokenOptions").Get<TokenOptions>();
 
         }
         public AccessToken CreateToken(User user, List<OperationClaim> operationClaims)
