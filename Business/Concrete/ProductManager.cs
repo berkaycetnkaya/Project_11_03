@@ -163,7 +163,7 @@ namespace Business.Concrete
         private IResult CheckIfProductkCountOfCategoryCorrect(int categoryId)
         {
             var result = _productDal.GetAll(p => p.CategoryID == categoryId).Count;
-            if (result >= 10)
+            if (result >= 25)
             {
                 return new ErrorResult(Messages.ProductCountOfCategoryError);
             }
