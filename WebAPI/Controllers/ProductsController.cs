@@ -34,6 +34,8 @@ namespace WebAPI.Controllers
             //};
             // dependency chain--
             //IProductService productService = new ProductManager(new EfProductDal());
+            Thread.Sleep(1000);
+            
             var result = _productService.GetAll();
             if (result.Success)
             {

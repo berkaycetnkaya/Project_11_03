@@ -67,6 +67,7 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 //{
 //    new CoreModule(),
 //});
+builder.Services.AddCors();
 builder.Configuration.GetSection("TokenOption").Get<TokenOptions>();
 builder.Services.AddDependencyResolver(new ICoreModule[]
 {
@@ -81,7 +82,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
-
+app.UseCors(builder=>builder.WithOrigins("http://localhost:4200").AllowAnyHeader());
+// ben bu yerden gelen isteklere güveniyorum kodu
 app.UseHttpsRedirection();
 app.UseAuthentication();    
 
