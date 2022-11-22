@@ -82,7 +82,9 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
-app.UseCors(builder=>builder.WithOrigins("http://localhost:4200").AllowAnyHeader());
+
+app.ConfigureCustomExceptionMiddleware();
+app.UseCors(builder=>builder.WithOrigins("http://localhost:4200", "http://localhost:59077").AllowAnyHeader());
 // ben bu yerden gelen isteklere güveniyorum kodu
 app.UseHttpsRedirection();
 app.UseAuthentication();    
