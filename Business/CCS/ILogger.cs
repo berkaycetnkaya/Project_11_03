@@ -4,11 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Entities.Abstract
+namespace Business.CCS
 {
-    // IENTTITY implement eden class bir veritabanı tablosudur
-    public interface IEntity
+    public interface ILogger
     {
-
+        void log();
     }
 }
